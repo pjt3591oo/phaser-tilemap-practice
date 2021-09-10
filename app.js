@@ -22,10 +22,10 @@ let cursors;
 let player;
 
 function preload() {
-  this.load.setBaseURL("http://127.0.0.1:8080");
-  this.load.image("tiles", "assets/tileset/tuxmon-sample-32px.png");
-  this.load.tilemapTiledJSON("map", "assets/tileset/tilemap/tuxmon-sample-32px.json");
-  this.load.atlas("atlas", "assets/atlas.png", "assets/atlas.json");
+  // this.load.setBaseURL("http://127.0.0.1:8080");
+  this.load.image("tiles", "https://raw.githubusercontent.com/pjt3591oo/phaser-tilemap-practice/main/assets/tileset/tuxmon-sample-32px.png");
+  this.load.tilemapTiledJSON("map", "https://raw.githubusercontent.com/pjt3591oo/phaser-tilemap-practice/main/assets/tileset/tilemap/tuxmon-sample-32px.json");
+  this.load.atlas("atlas", "https://raw.githubusercontent.com/pjt3591oo/phaser-tilemap-practice/main/assets/atlas.png", "https://raw.githubusercontent.com/pjt3591oo/phaser-tilemap-practice/main/assets/atlas.json");
 }
 
 function create() {
