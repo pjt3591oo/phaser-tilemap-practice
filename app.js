@@ -30,7 +30,10 @@ function preload() {
 
 function create() {
   const map = this.make.tilemap({ key: "map" });
+  // 첫 번째 인자는 tile editor에서 불러온 tilesets 이름이고, 두 번째 인자는 this.load(tiles)로 가져온 타일 정보를 가진 스프라이트 시트 이미지
   const tileset = map.addTilesetImage("tuxmon-sample-32px", "tiles");
+  
+  // 첫 번째 인자는 time editor에서 layer, object 이름에 해당한다
   const belowLayer = map.createLayer("background", tileset, 0, 0);
   const worldLayer = map.createLayer("world", tileset, 0, 0);
   // const spawnObject = map.createObj("world", tileset, 0, 0);
