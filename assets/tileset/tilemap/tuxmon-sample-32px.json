@@ -40,6 +40,29 @@
         }, 
         {
          "draworder":"topdown",
+         "id":9,
+         "name":"socket",
+         "objects":[
+                {
+                 "height":0,
+                 "id":3,
+                 "name":"socket-point1",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":720.588235294118,
+                 "y":1017.64705882353
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":4,
          "name":"spawn",
          "objects":[
@@ -52,8 +75,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":689.74358974359,
-                 "y":943.589743589744
+                 "x":683.861236802413,
+                 "y":917.11915535445
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -61,8 +84,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":7,
- "nextobjectid":3,
+ "nextlayerid":10,
+ "nextobjectid":4,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.2",
@@ -1760,7 +1783,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -1769,7 +1792,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -1976,7 +1999,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -1985,7 +2008,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {

@@ -2,6 +2,9 @@ class Scene1 extends Phaser.Scene {
   controls;
   cursors;
   player;
+  isSocketConnection = false;
+  isPopup = false;
+  socketPoint;
 
   constructor() {
     console.log("Scene1");
@@ -14,6 +17,14 @@ class Scene1 extends Phaser.Scene {
     this.load.image("tiles", "assets/tileset/tuxmon-sample-32px.png");
     this.load.tilemapTiledJSON("map", "assets/tileset/tilemap/tuxmon-sample-32px.json");
     this.load.atlas("atlas", "assets/atlas.png", "assets/atlas.json");
+
+    this.load.image('socket-charactor', 'assets/frog.png');
+
+    this.load.scenePlugin({
+      key: 'rexuiplugin',
+      url: 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexuiplugin.min.js',
+      sceneKey: 'rexUI'
+    });
   }
 
   create() {
@@ -24,24 +35,32 @@ class Scene1 extends Phaser.Scene {
     // 첫 번째 인자는 time editor에서 layer, object 이름에 해당한다
     const belowLayer = map.createLayer("background", tileset, 0, 0);
     const worldLayer = map.createLayer("world", tileset, 0, 0);
-    const portalLayer = map.createLayer('portal', tileset, 0, 0);
+    const portalLayer = map.createLayer('portal', tileset, 0, 0); // 하얀 동상
 
     worldLayer.setCollisionByProperty({ collides: true });
     portalLayer.setCollisionByProperty({ collides: true });
 
     const spawnPoint = map.findObject("spawn", obj => obj.name === "spawn point1");
+    const socketPoint1 = map.findObject("socket", obj => obj.name === "socket-point1");
 
+    
+    this.socketPoint = this.physics.add
+    .sprite(socketPoint1.x, socketPoint1.y, "socket-charactor", "misa-front")
+    // .setCollisionByProperty({ collides: false });
+    // .setSize(30, 40)
+    // .setOffset(0, 24);
+    
     this.player = this.physics.add
       .sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front")
       .setSize(30, 40)
       .setOffset(0, 24);
 
     this.physics.add.collider(this.player, worldLayer);
-
-    this.physics.add.collider(this.player, portalLayer, () => {
-      console.log('to scene2')
+    this.physics.add.collider(portalLayer, this.player, () => {
       this.scene.start('Scene2');
     });
+
+    this.physics.add.overlap(this.player, this.socketPoint)
 
     this.animation()
 
@@ -60,6 +79,17 @@ class Scene1 extends Phaser.Scene {
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
     this.showMsg()
+
+    this.player.on('overlapstart', function (self) {
+      // showDialog(self, '소켓을 연결합니다(테스트)', '확인' );
+      console.log('socket connected')
+    })
+    this.player.on('overlapend', function (self) {
+      // showDialog(self, '소켓을 끊습니다(테스트)', '확인' );
+      console.log('socket disconnected')
+    })
+
+    // showDialog(this, 'as', 'asf');
   }
 
   showMsg() {
@@ -73,7 +103,7 @@ class Scene1 extends Phaser.Scene {
     
     this
       .add
-      .text(10, 50, 'find hidden portal', { 
+      .text(10, 40, 'find hidden portal', { 
         fontSize: 24,
         color: '#aa0000' 
       })
@@ -90,6 +120,31 @@ class Scene1 extends Phaser.Scene {
     const prevVelocity = this.player.body.velocity.clone();
     this.player.body.setVelocity(0);
     this.controls.update(delta);
+
+    // var touching = !this.player.body.touching.none;
+    // var wasTouching = !this.player.body.wasTouching.none;
+    const isInX = this.player.body.x >= this.socketPoint.body.x && this.player.body.x <= this.socketPoint.body.x + this.socketPoint.body.height;
+    const isInY = this.player.body.y >= this.socketPoint.body.y && this.player.body.y <= this.socketPoint.body.y + this.socketPoint.body.width;
+    
+    if (isInX && isInY && !this.isSocketConnection) {
+      this.isPopup = true;
+      showDialog(this, '소켓을 연결합니다(테스트)', '확인', () => {
+        this.isPopup = false;
+      });
+      this.isSocketConnection = true;
+      this.player.emit("overlapstart", this)
+    } else if ((!isInX || !isInY) && this.isSocketConnection) {
+      this.isPopup = true;
+      showDialog(this, '소켓을 끊습니다(테스트)', '확인', () => {
+        this.isPopup = false;
+      });
+      this.isSocketConnection = false;
+      this.player.emit("overlapend", this)
+    };
+
+    if (this.isPopup) {
+      return
+    }
 
     // Horizontal movement
     if (this.cursors.left.isDown) {
