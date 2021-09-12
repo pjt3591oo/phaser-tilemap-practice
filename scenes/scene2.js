@@ -1,16 +1,16 @@
-class Scene1 extends Phaser.Scene {
+class Scene2 extends Phaser.Scene {
   controls;
   cursors;
   player;
 
   constructor() {
-    console.log("Scene1");
-    super("Scene1");
+    console.log("Scene2");
+    super("Scene2");
   }
 
   preload() {
-    this.load.setBaseURL("https://raw.githubusercontent.com/pjt3591oo/phaser-tilemap-practice/main");
-    // this.load.setBaseURL("http://127.0.0.1:8080");
+    // this.load.setBaseURL("https://raw.githubusercontent.com/pjt3591oo/phaser-tilemap-practice/main");
+    this.load.setBaseURL("http://127.0.0.1:8080");
     this.load.image("tiles", "assets/tileset/tuxmon-sample-32px.png");
     this.load.tilemapTiledJSON("map", "assets/tileset/tilemap/tuxmon-sample-32px.json");
     this.load.atlas("atlas", "assets/atlas.png", "assets/atlas.json");
@@ -30,7 +30,7 @@ class Scene1 extends Phaser.Scene {
     portalLayer.setCollisionByProperty({ collides: true });
 
     const spawnPoint = map.findObject("spawn", obj => obj.name === "spawn point1");
-
+    
     this.player = this.physics.add
       .sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front")
       .setSize(30, 40)
@@ -39,9 +39,12 @@ class Scene1 extends Phaser.Scene {
     this.physics.add.collider(this.player, worldLayer);
 
     this.physics.add.collider(this.player, portalLayer, () => {
-      console.log('to scene2')
-      this.scene.start('Scene2');
+      this.scene.start('Scene1');
     });
+    
+    // this.physics.add.collider(this.player, portalPoint, () => {
+    //   console.log('to scene2');
+    // });
 
     this.animation()
 
@@ -65,7 +68,7 @@ class Scene1 extends Phaser.Scene {
   showMsg() {
     this
       .add
-      .text(10, 10, 'map - scene1', { 
+      .text(10, 10, 'map - scene2', { 
         fontSize: 32,
         color: '#ff0000' 
       })
@@ -79,7 +82,6 @@ class Scene1 extends Phaser.Scene {
       })
       .setScrollFactor(0)
   }
-
   onCollideHandler (player, world) {
     console.log(player);
     console.log(world);

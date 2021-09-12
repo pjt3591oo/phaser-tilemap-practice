@@ -3,7 +3,7 @@ const config = {
   width: 800, 
   height: 600, 
   parent: "game-container", // 해당 ID 요소를 찾아서 사용
-  scene: [Scene1],
+  scene: [Scene1, Scene2],
   physics: {
     default: "arcade",
     arcade: {
