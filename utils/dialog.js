@@ -60,6 +60,7 @@ function showDialog(self, msg, buttonMsg, cb) {
       console.log('clicked')
       // dialog.hide();
       // console.log(dialog);
+      // TODO: visible을 이용해서 dialog를 보이지 않게 하는 방법이 올바른 방법인가?
       dialog.visible = false;
       cb();
     }, self)
